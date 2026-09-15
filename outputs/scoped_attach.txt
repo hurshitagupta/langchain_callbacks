@@ -1,0 +1,14 @@
+=== INVOCATION 1: CALLBACK ATTACHED ===
+[CALLBACK] LLM started
+[CALLBACK] LLM ended
+Response: Hello
+Events: ['llm_start', 'llm_end']
+
+=== INVOCATION 2: NO CALLBACK ATTACHED ===
+Response: Hi
+Events: ['llm_start', 'llm_end']
+
+=== SCOPED ATTACH RESULT ===
+Events after invocation 1: 2
+Events after invocation 2: 2
+PASS: Second invocation did not use the callback.

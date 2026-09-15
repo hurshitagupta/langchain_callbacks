@@ -138,3 +138,64 @@ uv run python -m metrics.metrics > outputs/metrics.txt
 
 uv run pytest tests/test_metrics.py -v > outputs/test_metrics.txt
 ```
+
+---
+
+## Task 3 — Scoped Attach
+
+Task 3 demonstrates how callback handlers can be attached to individual LangChain invocations instead of being configured globally.
+
+The callback is passed through the invocation configuration:
+
+```python
+config={"callbacks": [handler]}
+```
+
+This means the handler observes only the invocation where it is explicitly attached.
+
+### Implementation
+
+Two model invocations are performed.
+
+The first invocation attaches the callback:
+
+```python
+response1 = model.invoke(
+    "Reply with only the word: Hello",
+    config={"callbacks": [handler]},
+)
+```
+
+The second invocation does not attach the callback:
+
+```python
+response2 = model.invoke(
+    "Reply with only the word: Hi"
+)
+```
+
+The number of recorded events is compared before and after the second invocation.
+
+If the event count remains unchanged, it proves that the callback was scoped only to the first invocation.
+
+### Run Task 3
+
+```bash
+uv run python -m scoped_attach.scoped_attach
+```
+
+### Automated Tests
+
+Run:
+
+```bash
+uv run pytest tests/test_scoped_attach.py -v
+```
+
+### Save Evidence
+
+```bash
+uv run python -m scoped_attach.scoped_attach > outputs/scoped_attach.txt
+
+uv run pytest tests/test_scoped_attach.py -v > outputs/test_scoped_attach.txt
+```
