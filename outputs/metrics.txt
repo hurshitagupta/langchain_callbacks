@@ -1,0 +1,21 @@
+=== SUCCESS CASE ===
+[LLM START] run_id=01a0a4b5-cbf6-7d42-a759-fb6a0d527e7a
+[LLM END] run_id=01a0a4b5-cbf6-7d42-a759-fb6a0d527e7a
+Tokens: 0
+Latency: 4904.17 ms
+
+Model response:
+A callback is a function passed as an argument to another function that gets invoked later—typically after some event or asynchronous operation finishes.
+
+Metrics:
+Run ID: 01a0a4b5-cbf6-7d42-a759-fb6a0d527e7a
+Tokens: 0
+Latency: 4904.17 ms
+Errors: 0
+
+=== FAILURE CASE ===
+[LLM ERROR] run_id=failed-run-001
+Error: Demo LLM failure
+
+Failure metrics:
+{'tokens': 0, 'latency_ms': 0, 'errors': 1}
