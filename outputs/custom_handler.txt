@@ -1,0 +1,17 @@
+=== SUCCESS CASE ===
+[LLM START]
+[LLM END]
+Model response: Hello!
+[TOOL START] calculator
+[TOOL END] 1035.0
+Calculator result: 1035.0
+
+Events captured:
+['llm_start', 'llm_end', 'tool_start', 'tool_end']
+
+=== FAILURE CASE ===
+[LLM ERROR] Demo LLM failure
+[CHAIN ERROR] Demo chain failure
+
+Failure events captured:
+['llm_error', 'chain_error']
