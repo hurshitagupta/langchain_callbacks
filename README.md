@@ -274,3 +274,73 @@ Save the automated test output:
 ```bash
 uv run pytest tests/test_safety.py -v > outputs/test_safety.txt 2>&1
 ```
+
+---
+
+## Task 5 — Callback Overhead
+
+Task 5 measures the performance overhead introduced by attaching a callback handler to a LangChain runnable.
+
+The same controlled workload is executed:
+
+1. Without a callback
+2. With a callback
+
+Both execution times are measured in milliseconds and the callback overhead is reported as a percentage.
+
+### Benchmark
+
+A local `RunnableLambda` is used instead of an external LLM API.
+
+This avoids network and provider latency affecting the callback measurement.
+
+The runnable performs a small fixed workload:
+
+```python
+def process(text: str) -> str:
+    time.sleep(0.01)
+    return f"Processed: {text}"
+```
+
+A lightweight callback records the chain start and end events.
+
+### Overhead Calculation
+
+Callback overhead is calculated using:
+
+```python
+overhead = (
+    (with_callback - without_callback)
+    / without_callback
+) * 100
+```
+
+The benchmark executes the runnable 20 times in each configuration to reduce the effect of measuring only a single execution.
+
+### Run Task 5
+
+```bash
+uv run python -m overhead.overhead
+```
+
+### Automated Tests
+
+Run:
+
+```bash
+uv run pytest tests/test_overhead.py -v
+```
+
+### Save Evidence
+
+Save benchmark output:
+
+```bash
+uv run python -m overhead.overhead > outputs/overhead.txt
+```
+
+Save automated test output:
+
+```bash
+uv run pytest tests/test_overhead.py -v > outputs/test_overhead.txt
+```

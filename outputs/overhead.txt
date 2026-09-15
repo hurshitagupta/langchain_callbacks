@@ -1,0 +1,6 @@
+=== CALLBACK OVERHEAD BENCHMARK ===
+Runs: 20
+Without callback: 271.17 ms
+With callback: 222.85 ms
+Callback overhead: -17.82%
+Callback events recorded: 40
