@@ -199,3 +199,78 @@ uv run python -m scoped_attach.scoped_attach > outputs/scoped_attach.txt
 
 uv run pytest tests/test_scoped_attach.py -v > outputs/test_scoped_attach.txt
 ```
+
+---
+
+## Task 4 — Safety
+
+Task 4 demonstrates that a failure inside a callback handler does not break the main LangChain execution.
+
+Callbacks are generally used for side effects such as logging, tracing and metrics. A failure in one of these side effects should not prevent the main chain from completing.
+
+### Throwing Handler
+
+A custom callback handler intentionally raises an exception:
+
+```python
+class ThrowingHandler(BaseCallbackHandler):
+    raise_error = False
+
+    def on_llm_start(self, serialized, prompts, **kwargs):
+        self.callback_attempted = True
+
+        raise RuntimeError(
+            "Intentional callback failure"
+        )
+```
+
+The handler uses:
+
+```python
+raise_error = False
+```
+
+so the callback exception is handled without propagating it as the main chain failure.
+
+### Safety Demonstration
+
+The throwing callback is attached to the model using invocation configuration:
+
+```python
+response = model.invoke(
+    "Reply with only the word SAFE",
+    config={"callbacks": [handler]},
+)
+```
+
+The callback intentionally fails during `on_llm_start`, but the model invocation is still allowed to complete.
+
+The `callback_attempted` flag is used to prove that the callback actually executed before throwing the exception.
+
+### Run Task 4
+
+```bash
+uv run python -m safety.safety
+```
+
+### Automated Tests
+
+Run:
+
+```bash
+uv run pytest tests/test_safety.py -v
+```
+
+### Save Evidence
+
+Save the main execution:
+
+```bash
+uv run python -m safety.safety > outputs/safety.txt 2>&1
+```
+
+Save the automated test output:
+
+```bash
+uv run pytest tests/test_safety.py -v > outputs/test_safety.txt 2>&1
+```

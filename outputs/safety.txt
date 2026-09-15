@@ -1,0 +1,10 @@
+=== CALLBACK SAFETY TEST ===
+[CALLBACK] Handler started
+[CALLBACK] Intentionally throwing an error...
+Error in ThrowingHandler.on_llm_start callback: RuntimeError('Intentional callback failure')
+
+Model response:
+SAFE
+
+Callback attempted: True
+PASS: Chain completed even though the callback raised an exception.
